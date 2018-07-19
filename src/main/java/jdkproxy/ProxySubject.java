@@ -1,11 +1,11 @@
 package jdkproxy;
 
 import jdkproxy.exception.NoInterfaceException;
+import org.aspectj.lang.annotation.Aspect;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
 public class ProxySubject implements InvocationHandler {
     /**
      * 被代理对象

@@ -1,5 +1,4 @@
 package jdkproxy;
-
 public class Subject implements SubjectInterface{
 
     public void name (){
