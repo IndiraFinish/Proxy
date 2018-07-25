@@ -10,21 +10,21 @@ SpringAop提供了强大的动态AOP，当目标类有实现接口的情况下�
 2. Spring提供AspectJ的支持，但是在没有特殊情况下基本上不会使用AspectJ，因为SpringAop已经足够强大。SpringAop切入点是方法，如果要对属性增加应该使用AspectJ。
 SpringAop和AspectJ是AOP的两种不同的实现方式，是互补的而不是竞争关系。
 
-##AOP术语
+## AOP术语
 - Target(目标类)：需要被代理的类。
 - Joinpoint(连接点): 所谓连接点是指那些可能被拦截到的方法。 
 - PointCut (切入点)：已经被增强的连接点。 
 - Advice(通知/增强): 对连接点进行增强代码。
 - Weaving(织入): 是指把增强Advice应用到目标对象Target来创建新的代理Proxy的过程。
 - Aspect(切面): 是切入点Pointcut和通知Advice的结合，一个切入点和一个通知，组成成一个特殊的面。
-##切入点表达式
-###通配符
+## 切入点表达式
+### 通配符
 ```
 *  匹配任意字符，只匹配一个元素。
 .. 匹配任意字符，可以匹配多个元素 ，在表示类时，必须和*联合使用。
 +  表示按照类型匹配指定类的所有类，必须跟在类名后面，如 com.cad.Car+ ,表示继承该类的所有子类包括本身。
 ```
-###常用的语法
+### 常用的语法
 - execution : 用来匹配执行方法的连接点
 ```
 execution(<修饰符><返回类型><包.类.方法(参数)><异常>) 
@@ -33,7 +33,7 @@ execution(<修饰符><返回类型><包.类.方法(参数)><异常>)
 
 [切入点表达式简述](https://www.jianshu.com/p/dadc7d730489)
 
-##通知类型
+## 通知类型
 - Before : 前置通知，一般用于各种校验，在方法执行前执行，如果通知抛出异常，则阻止方法运行。  
 
 - AfterReturning : 后置通知，方法正常返回后执行，如果方法中抛出异常，通知无法执行。必须在方法执行后才执行，所以可以获得方法的返回值。  
@@ -41,12 +41,11 @@ execution(<修饰符><返回类型><包.类.方法(参数)><异常>)
 - AfterThrowingA : 抛出异常通知，一般用于包装异常信息。方法抛出异常后执行，如果方法没有抛出异常，无法执行 
 - After : 最终通知，用于清理现场。无论方法是否抛出异常都执行。
 
-##示例代码
+### 示例代码
 使用springboot全注解实现AOP。
 
-###JDK动态代理源码解析
-##JDK动态代理原理
-###Proxy
+## JDK动态代理原理
+### Proxy
 ```
 Proxy{
     private static final Class<?>[] constructorParams = {InvocationHandler.class };
@@ -169,6 +168,6 @@ private static final class ProxyClassFactory  implements BiFunction<ClassLoader,
        
 ```
 
-###实现自己的动态代理
+### 实现自己的动态代理
 
 示例代码:myJdkProxy
