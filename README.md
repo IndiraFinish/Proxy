@@ -43,3 +43,132 @@ execution(<修饰符><返回类型><包.类.方法(参数)><异常>)
 
 ##示例代码
 使用springboot全注解实现AOP。
+
+###JDK动态代理源码解析
+##JDK动态代理原理
+###Proxy
+```
+Proxy{
+    private static final Class<?>[] constructorParams = {InvocationHandler.class };
+
+    private static final WeakCache<ClassLoader, Class<?>[], Class<?>> 
+             proxyClassCache = new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
+       
+    protected InvocationHandler h;
+
+    // 私有构造方法
+    private Proxy() {
+    }  
+  
+    protected Proxy(InvocationHandler h) {
+        Objects.requireNonNull(h);
+        this.h = h;
+    }
+
+    public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces,InvocationHandler h)
+                  throws IllegalArgumentException                       
+    {
+        Objects.requireNonNull(h);
+        // 1.拷贝接口
+        final Class<?>[] intfs = interfaces.clone();
+        // 检查执行权限
+        final SecurityManager sm = System.getSecurityManager();
+        if (sm != null) {
+            checkProxyAccess(Reflection.getCallerClass(), loader, intfs);
+        }
+
+        // 2.生成 proxy class
+        Class<?> cl = getProxyClass0(loader, intfs);
+  
+        try {
+            if (sm != null) {
+                checkNewProxyPermission(Reflection.getCallerClass(), cl);
+            }
+            // 3.反射获得构造
+            final Constructor<?> cons = cl.getConstructor(constructorParams);
+            final InvocationHandler ih = h;
+            // 检查修饰类型
+            if (!Modifier.isPublic(cl.getModifiers())) {
+                AccessController.doPrivileged(new PrivilegedAction<Void>() {
+                    public Void run() {
+                        cons.setAccessible(true);
+                        return null;
+                    }
+                });
+            }
+            // 4.返回代理对象
+            return cons.newInstance(new Object[]{h});
+        } catch (IllegalAccessException|InstantiationException e) {
+            throw new InternalError(e.toString(), e);
+        } catch (InvocationTargetException e) {
+          // ....
+        } catch (NoSuchMethodException e) {
+            throw new InternalError(e.toString(), e);
+        }
+    }
+}
+   private static Class<?> getProxyClass0(ClassLoader loader, Class<?>... interfaces) {
+        // 继承这么多接口...傻逼吧！                                 
+        if (interfaces.length > 65535) {
+            throw new IllegalArgumentException("interface limit exceeded");
+        }
+
+        // 如果给定接口的代理类存在则返回缓存的代理类,不存在通过ProxyClassFactory创建
+        return proxyClassCache.get(loader, interfaces);
+    } 
+```
+### ProxyClassFactory
+```
+private static final class ProxyClassFactory  implements BiFunction<ClassLoader, Class<?>[], Class<?>>{
+ 
+    // prefix for all proxy class names
+    private static final String proxyClassNamePrefix = "$Proxy";
+ 
+     @Override
+     public Class<?> apply(ClassLoader loader, Class<?>[] interfaces) {
+        // 这个map我还是头一次见,和hashMap还是有点小区别的
+        Map<Class<?>, Boolean> interfaceSet = new IdentityHashMap<>(interfaces.length);
+        for (Class<?> intf : interfaces) {
+                // 验证类加载器是否解析过这个接口
+                Class<?> interfaceClass = null;
+                try {
+                // false 不执行静态代码块的内容... 
+                    interfaceClass = Class.forName(intf.getName(), false, loader);
+                } catch (ClassNotFoundException e) {
+                }
+                if (interfaceClass != intf) {
+                    throw new IllegalArgumentException(
+                        intf + " is not visible from class loader");
+                }
+     
+                if (!interfaceClass.isInterface()) {
+                    throw new IllegalArgumentException(
+                        interfaceClass.getName() + " is not an interface");
+                }
+                // 已经实现的接口不再解析了... 怎么不在外面判断？
+                if (interfaceSet.put(interfaceClass, Boolean.TRUE) != null) {
+                    throw new IllegalArgumentException(
+                        "repeated interface: " + interfaceClass.getName());
+                }
+            }
+            // 拼接包名等...
+           
+            // 生成字节码文件
+            byte[] proxyClassFile = ProxyGenerator.generateProxyClass(
+                proxyName, interfaces, accessFlags);
+            try {
+                // 返回代理class
+                return defineClass0(loader, proxyName,
+                                    proxyClassFile, 0, proxyClassFile.length);
+            } catch (ClassFormatError e) {
+               
+                throw new IllegalArgumentException(e.toString());
+            }
+        }
+}
+       
+```
+
+###实现自己的动态代理
+
+示例代码:myJdkProxy
