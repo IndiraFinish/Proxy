@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.*;
 @Aspect
 public class ProxyTarget {
     /**
-     * 匹配 springaop.subject.Subject类所有的public方法
+     * 匹配 springaop.subject.Traget类所有的public方法
      */
     @Pointcut("execution(public * springaop.subject.Traget.*(..))")
     public void proxy() {

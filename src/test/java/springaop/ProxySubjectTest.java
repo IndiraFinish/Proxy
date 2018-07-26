@@ -5,7 +5,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import springaop.subject.AnnoTargetInterface;
 import springaop.subject.TragertInterface;
+import springaop.subject.Traget;
 
 /**
  * @author wang.xw
@@ -18,5 +20,10 @@ public class ProxySubjectTest {
     public void test() {
         TragertInterface target = ctx.getBean(TragertInterface.class);
         target.name();
+    }
+    @Test
+    public void testAnno() {
+        AnnoTargetInterface target = ctx.getBean(AnnoTargetInterface.class);
+        target.name("111",new Traget());
     }
 }
