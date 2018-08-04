@@ -171,3 +171,6 @@ private static final class ProxyClassFactory  implements BiFunction<ClassLoader,
 ### 实现自己的动态代理
 
 示例代码:myJdkProxy
+
+## Javassist
+Javassist是一个开源的分析、编辑和创建Java字节码的类库。可以对类直接进行增强和修改实现"AOP"。相对于反射性能要高出很多。
