@@ -174,3 +174,8 @@ private static final class ProxyClassFactory  implements BiFunction<ClassLoader,
 
 ## Javassist
 Javassist是一个开源的分析、编辑和创建Java字节码的类库。可以对类直接进行增强和修改实现"AOP"。相对于反射性能要高出很多。
+
+## SpringBoot
+SpringBoot创建非web应用可以只引入spring-boot-starter依赖。默认实现了context.registerShutdownHook()方法用于容器的正常销毁。
+
+[Spring事件驱动](http://jinnianshilongnian.iteye.com/blog/1902886)
