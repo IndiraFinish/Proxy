@@ -1,4 +1,4 @@
-package wapper;
+package designPattern.decorator;
 
 public class StubDecorate implements Decorate {
     private Decorate decorate;
