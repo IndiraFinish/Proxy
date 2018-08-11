@@ -203,4 +203,8 @@ ApplicationListener : [Spring事件驱动模型](http://jinnianshTilongnian.itey
 ## other
 个人感觉抽象类有好使的地方，但是不易读，可读性稍微差一些。
 
+## 优秀博客
+
+[dubbo作者梁飞](http://javatar.iteye.com/)
+[京东张开涛](http://jinnianshilongnian.iteye.com/)
 
