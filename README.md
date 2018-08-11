@@ -173,9 +173,34 @@ private static final class ProxyClassFactory  implements BiFunction<ClassLoader,
 示例代码:myJdkProxy
 
 ## Javassist
+
+- package:javassist
+
 Javassist是一个开源的分析、编辑和创建Java字节码的类库。可以对类直接进行增强和修改实现"AOP"。相对于反射性能要高出很多。
+[动态代理性能方案对比](http://javatar.iteye.com/blog/814426)
 
-## SpringBoot
+## SpringBoot 
+- package:srping
+
 SpringBoot创建非web应用可以只引入spring-boot-starter依赖。默认实现了context.registerShutdownHook()方法用于容器的正常销毁。
+无需再自己实现registerShutdownHook
 
-[Spring事件驱动](http://jinnianshilongnian.iteye.com/blog/1902886)
+ApplicationContextAware：通过实现该类获取spring容器的Bean
+
+ApplicationListener : [Spring事件驱动模型](http://jinnianshTilongnian.iteye.com/blog/1902886)非常赞的文章
+实际上也是发布-订阅模式
+
+## 设计模式
+
+- package:designPattern
+
+责任链模式：多用于过滤器，请求者和接收者解耦(dubbo的filter实现比较特殊)
+装饰模式：wapper类试用,用于功能增强
+适配器模式：用于功能的分发？？
+单例模式：线程安全,个人感觉单例模式才是最难的，易写难精
+发布-订阅模式：spring的监听，用于广播
+
+## other
+个人感觉抽象类有好使的地方，但是不易读，可读性稍微差一些。
+
+
