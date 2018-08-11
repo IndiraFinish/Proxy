@@ -195,9 +195,13 @@ ApplicationListener : [Spring事件驱动模型](http://jinnianshTilongnian.itey
 - package:designPattern
 
 责任链模式：多用于过滤器，请求者和接收者解耦(dubbo的filter实现比较特殊)
+
 装饰模式：wapper类试用,用于功能增强
+
 适配器模式：用于功能的分发？？
+
 单例模式：线程安全,个人感觉单例模式才是最难的，易写难精
+
 发布-订阅模式：spring的监听，用于广播
 
 ## other
@@ -206,5 +210,6 @@ ApplicationListener : [Spring事件驱动模型](http://jinnianshTilongnian.itey
 ## 优秀博客
 
 [dubbo作者梁飞](http://javatar.iteye.com/)
+
 [京东张开涛](http://jinnianshilongnian.iteye.com/)
 
