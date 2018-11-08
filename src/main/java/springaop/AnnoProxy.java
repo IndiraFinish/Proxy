@@ -29,19 +29,23 @@ public class AnnoProxy {
         for(Object arg : args){
             System.out.println(arg.getClass());
         }
-
+        System.out.println("-------");
+        System.out.println(pjp.getSignature().toLongString());
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
         Test annotation = method.getAnnotation(Test.class);
         System.out.println(annotation);
 
         System.out.println(method);
+        System.out.println("-------");
         try {
             method = pjp.getTarget().getClass().getMethod(method.getName(), method.getParameterTypes());
             annotation = method.getAnnotation(Test.class);
             System.out.println(annotation);
-
+            System.out.println(annotation.desc());
             System.out.println(method);
-        } catch (NoSuchMethodException e) {
+            System.out.println("-----");
+            Object result = pjp.proceed();
+        } catch (Throwable e) {
             e.printStackTrace();
         }
 
